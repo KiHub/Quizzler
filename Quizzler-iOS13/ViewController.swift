@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var trueButton: UIButton!
     @IBOutlet weak var falseButton: UIButton!
     
+    
+    
     let quiz = [
                 Question(q: "A slug's blood is green.", a: "True"),
                 Question(q: "Approximately one quarter of human bones are in the feet.", a: "True"),
@@ -39,6 +41,7 @@ class ViewController: UIViewController {
         updateUI()
         //questionLabel.text = quiz[1]
         // Do any additional setup after loading the view.
+        progressBar.progress = 0
     }
 
     @IBAction func answerButtonPressed(_ sender: UIButton) {
@@ -49,8 +52,10 @@ class ViewController: UIViewController {
         
         if userAnswer == actualAnswer {
             sender.backgroundColor = UIColor.green
+            progressBar.progress += 0.1
         } else {
             sender.backgroundColor = UIColor.red
+            progressBar.progress -= 0.1
         }
         
         if questionNumber + 1 < quiz.count {
@@ -62,13 +67,17 @@ class ViewController: UIViewController {
         Timer.scheduledTimer(timeInterval: 0.2, target: self, selector:
         #selector(updateUI), userInfo: nil, repeats: false)
         
-       
+        if progressBar.progress == 1 {
+            progressBar.progressTintColor = UIColor.purple
+        }
     }
     
     @objc func updateUI()  {
         questionLabel.text = quiz[questionNumber].text
         trueButton.backgroundColor = UIColor.clear
         falseButton.backgroundColor = UIColor.clear
+        
+       
     }
 }
 
